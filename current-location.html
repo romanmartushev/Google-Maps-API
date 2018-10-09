@@ -16,26 +16,31 @@
       margin: 0;
       padding: 0;
     }
+
   </style>
 </head>
 
 <body>
-  <h1>Google Maps API using current location</h1>
+  <h1>Google Maps API With JavaScript</h1>
   <div id="map"></div>
-
   <script>
     var map, infoWindow;
-
+	
     function initMap() {
       map = new google.maps.Map(document.getElementById('map'), {
         center: {
-          lat: -34.397,
-          lng: 150.644
+          lat: 46.7296,
+          lng: -94.6859
         },
-        zoom: 6
+        zoom: 9
       });
       infoWindow = new google.maps.InfoWindow;
-
+	  google.maps.event.addListener(map, 'dblclick', function(event) {
+		placeMarker(map, event.latLng);
+	  });
+	 // map.addListener( 'rightclick', function(e) {
+		//clearMarkers();
+	  //});
       // Try HTML5 geolocation.
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -57,6 +62,22 @@
       }
     }
 
+	function placeMarker(map, location) {
+	  var marker = new google.maps.Marker({
+		position: location,
+		map: map
+	  });
+	  infowindow.open(map,marker);
+	}
+	
+	//marker.addListener('click', function() {                                  
+   // console.log("MARKER!!");                                              
+    //var infowindow = new google.maps.InfoWindow({                
+      //  content:"Hello World!"                                                  
+    //});                                                                       
+      //  infowindow.open(map,marker);                                                
+    //});
+
     function handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);
       infoWindow.setContent(browserHasGeolocation ?
@@ -65,8 +86,8 @@
       infoWindow.open(map);
     }
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap">
-  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
+
 </body>
 
 </html>
